@@ -1,11 +1,11 @@
 clear all;
 close all;
 clc;
-corr_plot_flag = 0;                 %是否画相邻像素点相关性分析图
+corr_plot_flag = 0;                 %鏄惁鐢荤浉閭诲儚绱犵偣鐩稿叧鎬у垎鏋愬浘
 
 IMGS = imread('./425gaopao.jpeg');
 IMG = rgb2gray(IMGS);
-IMG = imresize(IMG,[224,300]);   %裁剪图像
+IMG = imresize(IMG,[224,300]);   %瑁佸壀鍥惧儚
 IMG1 = IMG;
 IMG1(32,56) = IMG(32,56) + 1;
 t1 = mod(sum(sum(IMG)),256);
@@ -48,12 +48,7 @@ obj2 = image_encryption(IMG,m,n,Y_new1);
 
  deblur_img1 = obj1.decryption(blur_img1);
  deblur_img2 = obj2.decryption(blur_img1);
-[NPCR,UACI]= diff_attack (double(deblur_img1),double(deblur_img2))    % 分析差分攻击
-
+[NPCR,UACI]= diff_attack (double(deblur_img1),double(deblur_img2))    % 鍒嗘瀽宸垎鏀诲嚮
 
 % imwrite(IMG,'image\orignal_image.jpg')
 imwrite(uint8(deblur_img2),'image\key2.jpg')
-
-
-
-
