@@ -3,7 +3,7 @@ close all;
 clc;
 IMGS = imread('./425gaopao.jpeg');
 IMG = rgb2gray(IMGS);
-IMG = imresize(IMG,[224,300]);   %²Ã¼ôÍ¼Ïñ
+IMG = imresize(IMG,[224,300]);   
 IMG1 = IMG;
 IMG(192,270)
 IMG1(192,270) = IMG(192,270) + 1;
@@ -43,17 +43,10 @@ Y_new1(:,1) = xk1_s(t0_s + 1 : t0_s + N)';
 Y_new1(:,2) = yk1_s(t0_s + 1 : t0_s + N)';
 Y_new1(:,3:5) = Y1(t1_s+1:t1_s + N,:);
 
-
-
-
-
 obj1 = image_encryption(IMG,m,n,Y_new);
 blur_img1 = double(obj1.encryption());
 
 obj2 = image_encryption(IMG1,m,n,Y_new1);
 blur_img2 = double(obj2.encryption());
 
-[NPCR,UACI]= diff_attack (blur_img1,blur_img2)    % ·ÖÎö²î·Ö¹¥»÷
-
-
-
+[NPCR,UACI]= diff_attack (blur_img1,blur_img2)    
