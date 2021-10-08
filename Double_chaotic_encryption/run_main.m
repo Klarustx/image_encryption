@@ -1,13 +1,13 @@
 clear all;
 close all;
 clc;
-corr_plot_flag = 0;                 %ÊÇ·ñ»­ÏàÁÚÏñËØµãÏà¹ØĞÔ·ÖÎöÍ¼
+corr_plot_flag = 0;                 %æ˜¯å¦ç”»ç›¸é‚»åƒç´ ç‚¹ç›¸å…³æ€§åˆ†æå›¾
 
 % IMG = imread('./425gaopao.jpeg');
 % IMG = imresize(IMG,[225,300]);
 IMGS = imread('./425gaopao.jpeg');
 IMG = rgb2gray(IMGS);
-IMG = imresize(IMG,[224,300]);   %²Ã¼ôÍ¼Ïñ
+IMG = imresize(IMG,[224,300]);   %è£å‰ªå›¾åƒ
 IMG1 = IMG;
 IMG1(32,56) = IMG(32,56) + 1;
 t1 = mod(sum(sum(IMG)),256);
@@ -32,7 +32,6 @@ options = odeset('RelTol',1e-3,'AbsTol',[1e-4 1e-4 1e-4]);
 Y_new(:,1) = xk1(t0+1 : t0 + N)';
 Y_new(:,2) = yk1(t0+1 : t0 + N)';
 Y_new(:,3:5) = Y1(t1+1:t1 + N,:);
-
 figure(1)
 imshow(uint8(IMG))
 
@@ -45,7 +44,7 @@ blur_img1 = obj1.encryption();
 
  deblur_img = obj1.decryption(blur_img1);
 
-% [NPCR,UACI]= diff_attack (double(blur_img1),double(blur_img2))    % ·ÖÎö²î·Ö¹¥»÷
+% [NPCR,UACI]= diff_attack (double(blur_img1),double(blur_img2))    % åˆ†æå·®åˆ†æ”»å‡»
 
 figure(2)
 imshow(uint8(blur_img1))
@@ -56,47 +55,37 @@ imshow(deblur_img)
 % figure(4)
 % imhist(uint8(IMG))
 % xlabel({'','','   '})
-% ylabel('ÏñËØµã¸öÊı')
+% ylabel('åƒç´ ç‚¹ä¸ªæ•°')
 % figure(5)
 % imhist(uint8(blur_img1))
 % xlabel({'','','   '})
-% ylabel('ÏñËØµã¸öÊı')
+% ylabel('åƒç´ ç‚¹ä¸ªæ•°')
 
-near_point = double(obj1.near_pixel(blur_img1));   %ÏàÁÚÏñËØÏà¹ØĞÔ·ÖÎö
-orig_img_shan = obj1.energy_shan(double(IMG))   % ¼ÆËãÃ÷ÎÄÍ¼ÏñĞÅÏ¢ìØ
-blur_img_shan = obj1.energy_shan(blur_img1)   % ¼ÆËãÃÜÎÄÍ¼ÏñĞÅÏ¢ìØ
-% [NPCR,UACI]= diff_attack (double(blur_img1),double(blur_img2))    % ·ÖÎö²î·Ö¹¥»÷
-
-
+near_point = double(obj1.near_pixel(blur_img1));   %ç›¸é‚»åƒç´ ç›¸å…³æ€§åˆ†æ
+orig_img_shan = obj1.energy_shan(double(IMG))   % è®¡ç®—æ˜æ–‡å›¾åƒä¿¡æ¯ç†µ
+blur_img_shan = obj1.energy_shan(blur_img1)   % è®¡ç®—å¯†æ–‡å›¾åƒä¿¡æ¯ç†µ
+% [NPCR,UACI]= diff_attack (double(blur_img1),double(blur_img2))    % åˆ†æå·®åˆ†æ”»å‡»
 
 if corr_plot_flag == 1
     figure(6)
     scatter(near_point(1000:2000,1),near_point(1000:2000,2),'*')
-    xlabel('Î»ÖÃÎª(x,y)µÄÏñËØµã»Ò¶ÈÖµ')
-    ylabel('Î»ÖÃÎª(x,y+1)µÄÏñËØµã»Ò¶ÈÖµ')
-    title('Ë®Æ½·½ÏòÏà¹ØĞÔ')
+    xlabel('ä½ç½®ä¸º(x,y)çš„åƒç´ ç‚¹ç°åº¦å€¼')
+    ylabel('ä½ç½®ä¸º(x,y+1)çš„åƒç´ ç‚¹ç°åº¦å€¼')
+    title('æ°´å¹³æ–¹å‘ç›¸å…³æ€§')
     h_corre = corrcoef(near_point(:,1),near_point(:,2))
     figure(7)
     scatter(near_point(1000:2000,1),near_point(1000:2000,3),'*')
-    xlabel('Î»ÖÃÎª(x,y)µÄÏñËØµã»Ò¶ÈÖµ')
-    ylabel('Î»ÖÃÎª(x+1,y)µÄÏñËØµã»Ò¶ÈÖµ')
-    title('´¹Ö±·½ÏòÏà¹ØĞÔ')
+    xlabel('ä½ç½®ä¸º(x,y)çš„åƒç´ ç‚¹ç°åº¦å€¼')
+    ylabel('ä½ç½®ä¸º(x+1,y)çš„åƒç´ ç‚¹ç°åº¦å€¼')
+    title('å‚ç›´æ–¹å‘ç›¸å…³æ€§')
     v_corre = corrcoef(near_point(:,1),near_point(:,3))
     figure(8)
     scatter(near_point(1000:2000,1),near_point(1000:2000,4),'*')
-    xlabel('Î»ÖÃÎª(x,y)µÄÏñËØµã»Ò¶ÈÖµ')
-    ylabel('Î»ÖÃÎª(x+1,y+1)µÄÏñËØµã»Ò¶ÈÖµ')
-    title('¶Ô½ÇÏß·½ÏòÏà¹ØĞÔ')
+    xlabel('ä½ç½®ä¸º(x,y)çš„åƒç´ ç‚¹ç°åº¦å€¼')
+    ylabel('ä½ç½®ä¸º(x+1,y+1)çš„åƒç´ ç‚¹ç°åº¦å€¼')
+    title('å¯¹è§’çº¿æ–¹å‘ç›¸å…³æ€§')
     diag_corre = corrcoef(near_point(:,1),near_point(:,4))
 end
 
-
-
-
-
 imwrite(IMG,'image\orignal_image.jpg')
 imwrite(uint8(blur_img1),'image\blur_image.jpg')
-
-
-
-
