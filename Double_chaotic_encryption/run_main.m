@@ -35,7 +35,6 @@ Y_new(:,3:5) = Y1(t1+1:t1 + N,:);
 figure(1)
 imshow(uint8(IMG))
 
-
 obj1 = image_encryption(IMG,m,n,Y_new);
 blur_img1 = obj1.encryption();
 
